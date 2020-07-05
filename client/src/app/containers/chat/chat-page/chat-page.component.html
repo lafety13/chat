@@ -1,6 +1,8 @@
 <div class="chat-board">
   <div class="chat-board__messages">
-    <chat-messages [messageList]="messages"></chat-messages>
+    <chat-messages [messageList]="messages"
+                   (selectUser)="onUserDblClick($event)">
+    </chat-messages>
 
     <chat-message-form [value]="linkedUsername"
                        (submitted)="onSendMessage($event)"

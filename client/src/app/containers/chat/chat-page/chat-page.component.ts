@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {ChatService} from '../../../services/chat.service';
 import {Observable} from 'rxjs';
 import {IMessage} from '../../../interfaces/message.interface';
@@ -11,7 +11,7 @@ import {ChatWsEventsEnum} from '../../../constants/chat-ws-events.enum';
   templateUrl: './chat-page.component.html',
   styleUrls: ['./chat-page.component.scss']
 })
-export class ChatPageComponent implements OnInit, OnDestroy {
+export class ChatPageComponent implements OnInit {
   public messages: IMessage[];
   public users: Observable<IUser[]>;
   public socketId: Observable<string>;
@@ -22,10 +22,14 @@ export class ChatPageComponent implements OnInit, OnDestroy {
     private sessionService: SessionService
   ) {}
 
+  @HostListener('window:beforeunload')
+  public onBeforeUnload() {
+    this.chatService.disconnect();
+  }
+
   public ngOnInit() {
     this.chatService.connect();
     this.chatService.emit(ChatWsEventsEnum.ReceiveHistory);
-
     const user = this.sessionService.get();
     this.chatService.emit(ChatWsEventsEnum.UserConnected, user);
     this.users = this.chatService.on(ChatWsEventsEnum.UserConnected);
@@ -40,10 +44,6 @@ export class ChatPageComponent implements OnInit, OnDestroy {
       .on(ChatWsEventsEnum.Message)
       .pipe(tap((message) => this.messages = [...this.messages, message]))
       .subscribe();
-  }
-
-  public ngOnDestroy(): void {
-    this.chatService.disconnect();
   }
 
   public onSendMessage(msg) {

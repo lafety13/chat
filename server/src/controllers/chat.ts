@@ -1,16 +1,19 @@
 import { Message } from "../models/message";
 import {Socket, Server} from "socket.io";
 import {ChatWsEventsEnum} from "../constants/chat-ws-events.enum";
+import {User} from "../interfaces/user.interface";
+import {UserMessage} from "../interfaces/message.interface";
+import {SocketWithUser} from "../interfaces/socket.interface";
 
 /**
- * Send message
+ * Sends message
  * emit "message"
  */
-export const messageController = (socket: Socket, content: any) => {
+export const messageController = (socket: Socket, userMessage: UserMessage) => {
     const obj = {
         date: new Date(),
-        message: content.message,
-        username: content.username
+        message: userMessage.message,
+        username: userMessage.username
     };
 
     Message.create(obj, (err: Error) => {
@@ -21,7 +24,7 @@ export const messageController = (socket: Socket, content: any) => {
 };
 
 /**
- * Fetch all messages
+ * Fetches all messages
  * emit "receiveHistory"
  */
 export const receiveHistoryController = (socket: Socket) => {
@@ -38,18 +41,27 @@ export const receiveHistoryController = (socket: Socket) => {
 };
 
 /**
- * Fetch connected users
+ * Fetches connected users
  * emit "connected_users"
  */
-export const userConnectedController = (io: Server, socket: Socket, user: any) => {
+export const userConnectedController = (io: Server, socket: SocketWithUser, user: User) => {
     user.socketId = socket.id;
-    (socket as any).user = user;
+    socket.user = user;
 
     const users = Object.values(io.sockets.sockets)
-        .filter((socket) => "user" in socket)
-        .map((socket: any) => socket.user);
+        .filter((s: SocketWithUser) => "user" in s)
+        .map((s: SocketWithUser) => s.user);
 
     io.emit(ChatWsEventsEnum.UserConnected, users);
 };
 
+/**
+ * Emits on disconnect user and emit "connected_users" event with updated list.
+ */
+export const userDisconnectController = (io: Server) => {
+    const users = Object.values(io.sockets.sockets)
+        .filter((socket: SocketWithUser) => "user" in socket)
+        .map((socket: SocketWithUser) => socket.user);
 
+    io.emit(ChatWsEventsEnum.UserConnected, users);
+};

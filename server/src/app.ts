@@ -7,10 +7,18 @@ import mongoose from "mongoose";
 import bluebird from "bluebird";
 
 import {MONGODB_URI} from "./util/secrets";
-import socket, {Socket} from "socket.io";
+import socket from "socket.io";
 import http from "http";
-import {messageController, receiveHistoryController, userConnectedController} from "./controllers/chat";
+import {
+    messageController,
+    receiveHistoryController,
+    userConnectedController,
+    userDisconnectController
+} from "./controllers/chat";
 import {ChatWsEventsEnum} from "./constants/chat-ws-events.enum";
+import {SocketWithUser} from "./interfaces/socket.interface";
+import {UserMessage} from "./interfaces/message.interface";
+import {User} from "./interfaces/user.interface";
 
 // Create Express server
 const app = express();
@@ -39,11 +47,12 @@ app.use(flash());
 app.use("*", express.static(path.join(__dirname, "../../client/dist/client")));
 
 // Chat routes
-io.on("connection", (socket: Socket) => {
+io.on("connection", (socket: SocketWithUser) => {
     socket.join("all");
-    socket.on(ChatWsEventsEnum.Message, (content: any) => messageController(socket, content));
+    socket.on(ChatWsEventsEnum.Message, (userMessage: UserMessage) => messageController(socket, userMessage));
     socket.on(ChatWsEventsEnum.ReceiveHistory, () => receiveHistoryController(socket));
-    socket.on(ChatWsEventsEnum.UserConnected, (user) => userConnectedController(io, socket, user));
+    socket.on(ChatWsEventsEnum.UserConnected, (user: User) => userConnectedController(io, socket, user));
+    socket.on(ChatWsEventsEnum.Disconnect, () => userDisconnectController(io));
 });
 
 export { app, server };
