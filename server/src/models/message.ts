@@ -7,7 +7,6 @@ const MessageSchema = new Schema(
         username: {type: String}
     },
     {
-        versionKey: false,
         collection: "MessageCollection"
     }
 );

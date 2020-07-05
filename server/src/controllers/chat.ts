@@ -10,16 +10,16 @@ import {SocketWithUser} from "../interfaces/socket.interface";
  * emit "message"
  */
 export const messageController = (socket: Socket, userMessage: UserMessage) => {
-    const obj = {
+    const entity = {
         date: new Date(),
         message: userMessage.message,
         username: userMessage.username
     };
 
-    Message.create(obj, (err: Error) => {
+    Message.create(entity, (err: Error) => {
         if (err) return console.error("Message", err);
-        socket.emit(ChatWsEventsEnum.Message, obj);
-        socket.to("all").emit(ChatWsEventsEnum.Message, obj);
+        socket.emit(ChatWsEventsEnum.Message, entity);
+        socket.to("all").emit(ChatWsEventsEnum.Message, entity);
     });
 };
 
