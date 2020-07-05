@@ -1,0 +1,25 @@
+:host {
+  display: block;
+}
+
+.chat-message-container {
+  padding: 15px;
+  display: flex;
+
+  &__time {
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+
+  &__user-name {
+    cursor: pointer;
+    user-select: none;
+    padding-right: 10px;
+    color: #3971B7;
+    font-weight: 500;
+  }
+
+  &__message {
+    word-break: break-word;
+  }
+}

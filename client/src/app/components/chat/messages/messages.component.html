@@ -1,0 +1,7 @@
+<div class="chat-message-thread">
+  <chat-message *ngFor="let message of messageList; let even = even"
+               [message]="message"
+               [class.chat-message-thread--highlighted]="even"
+               (selectUser)="selectUser.emit($event)">
+  </chat-message>
+</div>

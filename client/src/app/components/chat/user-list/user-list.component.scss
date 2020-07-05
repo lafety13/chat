@@ -1,0 +1,15 @@
+.chat-user-list {
+  padding: 0;
+  overflow: auto;
+  height: 100%;
+
+  &__user {
+    cursor: pointer;
+
+    &--active {
+      cursor: auto;
+      color: #f5f7f7;
+      background-color: #3f51b5;
+    }
+  }
+}

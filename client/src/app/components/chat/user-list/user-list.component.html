@@ -1,0 +1,13 @@
+<div class="chat-user-list">
+  <mat-list role="list">
+    <ng-container *ngFor="let user of userList">
+      <mat-list-item role="listitem"
+                     [class.chat-user-list__user--active]="socketId === user.socketId"
+                     class="chat-user-list__user "
+                     (dblclick)="onClickUser(user)">
+        {{ user.username }}
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    </ng-container>
+  </mat-list>
+</div>

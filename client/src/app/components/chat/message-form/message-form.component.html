@@ -1,0 +1,11 @@
+<form [formGroup]="form" class="chat-message-form w-100">
+  <div class="chat-message-form__input-wrapper">
+    <mat-form-field class="w-100 mr-16">
+      <input matInput
+             placeholder="Message"
+             formControlName="message">
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" (click)="onSubmit()">Send</button>
+  </div>
+</form>

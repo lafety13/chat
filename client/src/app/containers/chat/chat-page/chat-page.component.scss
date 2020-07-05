@@ -1,0 +1,26 @@
+@import "./src/app/containers/chat/chat-layout/chat-layout.component";
+
+$input-section-height: 65px;
+$input-section-border: 2px;
+
+.chat-board {
+  display: flex;
+  height: calc(100vh - #{$toolbar-height});
+
+  &__messages {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 80%;
+    height: calc(100vh - #{$toolbar-height} - #{$input-section-height} - #{$input-section-border});
+  }
+
+  &__input-section {
+    display: flex;
+    height: $input-section-height;
+  }
+
+  &__sidebar {
+    width: 20%;
+  }
+}

@@ -1,0 +1,12 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <mat-card class="chat-login-container">
+    <h1 class="chat-login-container__title">Sign in</h1>
+    <div class="chat-login-container__form">
+      <mat-form-field class="w-100 mr-16">
+        <input matInput placeholder="Please enter your name" formControlName="username">
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit">Login</button>
+    </div>
+  </mat-card>
+</form>

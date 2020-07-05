@@ -1,0 +1,15 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.chat-message-thread {
+  margin-bottom: 8px;
+  height: 100%;
+  padding: 0;
+  overflow: auto;
+
+  &--highlighted {
+    background-color: #efefef;
+  }
+}

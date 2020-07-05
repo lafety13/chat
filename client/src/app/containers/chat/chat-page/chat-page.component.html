@@ -1,0 +1,17 @@
+<div class="chat-board">
+  <div class="chat-board__messages">
+    <chat-messages [messageList]="messages"></chat-messages>
+
+    <chat-message-form [value]="linkedUsername"
+                       (submitted)="onSendMessage($event)"
+                       class="chat-board__input-section">
+    </chat-message-form>
+  </div>
+
+  <div class="chat-board__sidebar">
+    <chat-user-list [userList]="users | async"
+                    [socketId]="socketId | async"
+                    (selectUser)="onUserDblClick($event)">
+    </chat-user-list>
+  </div>
+</div>
