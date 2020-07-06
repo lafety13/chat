@@ -11,6 +11,4 @@ import {IMessage} from '../../../interfaces/message.interface';
 export class MessageComponent {
   @Input() public message: IMessage;
   @Output() public selectUser = new EventEmitter<IUser>();
-
-  public highlighted: boolean;
 }
