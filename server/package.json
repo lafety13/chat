@@ -32,7 +32,7 @@
         "express-validator": "^6.2.0",
         "fbgraph": "^1.4.4",
         "mongoose": "^5.7.5",
-        "pug": "^2.0.4",
+        "pug": "^3.0.1",
         "socket.io": "^2.3.0",
         "winston": "^3.2.1"
     },
